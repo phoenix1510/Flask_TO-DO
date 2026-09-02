@@ -1,4 +1,6 @@
 # main dashboard blueprint for the application
+from turtle import title
+
 from flask import Blueprint, render_template, session, redirect, url_for, flash,request
 from app.db.db_operations import add_task_to_user, get_all_tasks, delete_task_from_user ,edit_task_of_user
 
@@ -21,10 +23,11 @@ def add_task():
         flash('Please log in to add tasks.', 'warning')
         return redirect(url_for('auth.login'))
 
-    task = request.form.get('task')        #json sent by js
+    title = request.form.get('title')
+    description = request.form.get('description')
 
-    if task: 
-        add_task_to_user(task['title'], task['description'], session['user_id'])
+    if title and description:
+        add_task_to_user(title, description, session['user_id'])
         flash('Task added successfully!', 'success')
     else:
         flash('Task title and description cannot be empty.', 'danger')
