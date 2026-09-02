@@ -16,7 +16,7 @@ def get_user_from_username(username):
 def insert_user(username, password):
     db = init_db()
     cursor = db.cursor()
-    query = "INSERT INTO user(username, password) values(%s,%s)"
+    query = "INSERT INTO user(username, password_hash) values(%s,%s)"
     password_hash = generate_password_hash(password)
     cursor.execute(query,(username,password_hash))
     db.commit()
