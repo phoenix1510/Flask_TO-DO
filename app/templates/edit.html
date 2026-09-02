@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit task</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+    <form action="{{ url_for('main.edit_task', task_id=task_id) }}" method="POST">
+        {{ edit_form.hidden_tag() }}
+        <div class="form-group">
+            {{ edit_form.title.label }}
+            {{ edit_form.title(class="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ edit_form.description.label }}
+            {{ edit_form.description(class="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ edit_form.submit(class="btn btn-primary") }}
+        </div>
+    </form>
+        <!-- FLASH MESSAGES -->
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+
+        {% if messages %}
+
+        {% for category, message in messages %}
+
+        <script>
+            alert("{{ message }}");
+        </script>
+
+        {% endfor %}
+
+        {% endif %}
+
+        {% endwith %}
+
+</body>
+
+</html>
