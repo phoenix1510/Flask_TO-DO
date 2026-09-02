@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <title>Dashboard</title>
+</head>
+
+<body>
+
+    <header>
+        <h1>To-Do Dashboard</h1>
+
+        <a class="logout" href="{{ url_for('auth.logout') }}">
+            Logout
+        </a>
+    </header>
+
+    <div class="container">
+
+        <div class="welcome">
+            <h2>Welcome, {{ username }}!</h2>
+            <p>Manage your tasks below.</p>
+        </div>
+
+
+        <!-- ========================= -->
+        <!-- ADD TASK -->
+        <!-- ========================= -->
+
+        <div class="card">
+
+            <h2>Add Task</h2>
+
+            <form action="{{ url_for('main.add_task') }}" method="POST">
+
+                <label for="title">Task Title</label>
+
+                <input
+                    type="text"
+                    id="title"
+                    name="title"
+                    placeholder="Enter task title"
+                    required
+                >
+
+                <label for="description">Description</label>
+
+                <textarea
+                    id="description"
+                    name="description"
+                    placeholder="Enter task description"
+                    required
+                ></textarea>
+
+                <button type="submit" class="add-btn">
+                    Add Task
+                </button>
+
+            </form>
+
+        </div>
+
+
+        <!-- ========================= -->
+        <!-- TASK LIST -->
+        <!-- ========================= -->
+
+        <div class="card">
+
+            <h2>Your Tasks</h2>
+
+            {% if tasks %}
+
+                {% for task in tasks %}
+
+                    <div class="task">
+
+                        <h3>{{ task.title }}</h3>
+
+                        <p>
+                            {{ task.description }}
+                        </p>
+
+
+                        <div class="task-actions">
+
+                            <!-- EDIT -->
+                            <form
+                                action="{{ url_for('main.edit_task') }}"
+                                method="POST"
+                            >
+
+                                <input
+                                    type="hidden"
+                                    name="task_id"
+                                    value="{{ task.task_id }}"
+                                >
+
+                                <input
+                                    type="hidden"
+                                    name="title"
+                                    value="{{ task.title }}"
+                                >
+
+                                <input
+                                    type="hidden"
+                                    name="description"
+                                    value="{{ task.description }}"
+                                >
+
+                                <button
+                                    type="submit"
+                                    class="edit-btn"
+                                >
+                                    Edit
+                                </button>
+
+                            </form>
+
+
+                            <!-- DELETE -->
+                            <form
+                                action="{{ url_for('main.delete_task', task_id=task.task_id) }}"
+                                method="POST"
+                            >
+
+                                <button
+                                    type="submit"
+                                    class="delete-btn"
+                                >
+                                    Delete
+                                </button>
+
+                            </form>
+
+                        </div>
+
+                    </div>
+
+                {% endfor %}
+
+            {% else %}
+
+                <p class="empty">
+                    You don't have any tasks yet.
+                </p>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+
+    <!-- ========================= -->
+    <!-- FLASH MESSAGES -->
+    <!-- ========================= -->
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+
+        {% if messages %}
+
+            {% for category, message in messages %}
+
+                <script>
+                    alert("{{ message }}");
+                </script>
+
+            {% endfor %}
+
+        {% endif %}
+
+    {% endwith %}
+
+</body>
+
+</html>
