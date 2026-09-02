@@ -58,7 +58,7 @@ def edit_task():
     task_id =request.form.get('task_id')
 
     if task_id and title and description:
-        edit_task_of_user(task_id, title, description, session['user_id'])
+        edit_task_of_user(task_id, title, description, session['user_id'])  
         flash('Task updated successfully!', 'success')
     else:
         flash('Task title and description cannot be empty.', 'danger')
