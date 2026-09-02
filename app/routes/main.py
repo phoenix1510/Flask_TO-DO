@@ -15,7 +15,10 @@ def dashboard():
     if 'user' not in session:
         flash('Please log in to access the dashboard.', 'warning')
         return redirect(url_for('auth.login'))
-    return render_template('dashboard.html', username=session['user'])
+
+    tasks = get_all_tasks(session['user_id'])
+
+    return render_template('dashboard.html',username=session['user'],tasks=tasks)
 
 @main_bp.route('/dashboard/add_task', methods=['POST'])
 def add_task():
@@ -33,13 +36,6 @@ def add_task():
         flash('Task title and description cannot be empty.', 'danger')
     return redirect(url_for('main.dashboard'))
 
-@main_bp.route('/dashboard/get_tasks', methods=['GET'])
-def get_tasks():
-    if 'user' not in session:
-        flash('Please log in to view tasks.', 'warning')
-        return redirect(url_for('auth.login'))
-    tasks = get_all_tasks(session['user_id'])
-    return render_template('tasks.html', tasks=tasks)
 
 @main_bp.route('/dashboard/delete_task/<int:task_id>', methods=['POST'])
 def delete_task(task_id):
