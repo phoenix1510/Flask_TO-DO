@@ -59,3 +59,13 @@ def edit_task_of_user(task_id, title, description, user_id):
     db.commit()
     cursor.close()
     close_db()
+
+
+def mark_as_complete(task_id, user_id):
+    db= init_db()
+    cursor = db.cursor()
+    query = "UPDATE task SET status = 'complete' WHERE task_id = %s AND user_id = %s"
+    cursor.execute(query, (task_id, user_id))
+    db.commit()
+    cursor.close()
+    close_db()

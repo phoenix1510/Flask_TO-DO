@@ -2,7 +2,7 @@
 from turtle import title
 from app.routes.wtfform import addTaskForm, editTaskForm
 from flask import Blueprint, render_template, session, redirect, url_for, flash,request
-from app.db.db_operations import add_task_to_user, get_all_tasks, delete_task_from_user ,edit_task_of_user
+from app.db.db_operations import add_task_to_user, get_all_tasks, delete_task_from_user ,edit_task_of_user, mark_as_complete
 
 main_bp = Blueprint('main', __name__)
 
@@ -77,3 +77,13 @@ def edit_task(task_id):
         return redirect(url_for('main.dashboard'))
 
     return render_template('edit.html', edit_form=form,task_id=task_id)
+
+@main_bp.route('/dashboard/complete_task/<int:task_id>', methods=['GET','POST'])
+def complete_task(task_id):
+    if 'user' not in session:
+        flash('Please log in to complete tasks.', 'warning')
+        return redirect(url_for('auth.login'))
+
+    mark_as_complete(task_id, session['user_id'])
+    flash('Task marked as complete!', 'success')
+    return redirect(url_for('main.dashboard'))

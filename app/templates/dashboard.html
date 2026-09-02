@@ -68,7 +68,11 @@
                         </td>
 
                         <td>
-                            {{ task.status }}
+                            {% if task.status == 'on_going' %}
+                            <span class="status-on-going">On Going</span>
+                            {% elif task.status == 'complete' %}
+                            <span class="status-complete">Complete</span>
+                            {% endif %}
                         </td>
 
                         <td>
@@ -89,6 +93,12 @@
                                 </button>
 
                             </form>
+
+                            {% if task.status == 'on_going' %}
+                            <a href="{{ url_for('main.complete_task', task_id=task.task_id) }}">
+                                <button type="button" class="complete-btn">Mark as Complete</button>
+                            </a>
+                            {% endif %}
 
                         </td>
 

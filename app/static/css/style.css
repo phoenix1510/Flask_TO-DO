@@ -147,6 +147,21 @@ button,
     color: white;
 }
 
+.complete-btn {
+    background-color: #17a2b8;
+    color: white;
+}
+
+.status-on-going {
+    color: #ffc107;
+    font-weight: bold;
+}
+
+.status-complete {
+    color: #28a745;
+    font-weight: bold;
+}
+
 
 /* =========================
    DASHBOARD
