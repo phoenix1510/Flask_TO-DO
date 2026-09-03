@@ -3,7 +3,7 @@
 from flask import Blueprint, render_template, redirect, url_for, request, flash, session
 from werkzeug.security import generate_password_hash, check_password_hash
 from app.db.db_operations import get_user_from_username, insert_user
-from app.routes.wtfform import LoginForm
+from app.routes.wtfform import LoginForm, SignupForm
 
 auth_bp = Blueprint('auth',__name__, url_prefix='/auth')
 
@@ -32,7 +32,7 @@ def logout():
 
 @auth_bp.route('/signup', methods=['GET', 'POST'])
 def signup():
-    form = LoginForm()
+    form = SignupForm()
     if form.validate_on_submit():
         username = form.username.data
         password = form.password.data
