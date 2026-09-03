@@ -11,6 +11,7 @@
 <body>
     <section class="use-some-photo"></section>
     <section class="form">
+        <h1>Login</h1>
         <form action="{{ url_for('auth.login') }}" method="POST">
             {{ form.hidden_tag() }}
             <div class="form-group">
